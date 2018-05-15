@@ -13,13 +13,13 @@ import java.util.List;
 
 
 @Service
-@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @Override
+    @Transactional
     public boolean save(CustomerDTO customerDTO) {
         Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress(), customerDTO.getTel());
         Customer save = customerRepository.save(customer);
@@ -82,10 +82,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean update(CustomerDTO customerDTO) {
-        Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress(), customerDTO.getTel());
-        Customer save = customerRepository.save(customer);
-        if (save != null) {
-            return true;
+
+        CustomerDTO custDTO = findById(customerDTO.getId());
+        if (custDTO != null) {
+            Customer customer = new Customer(custDTO.getId(), custDTO.getName(), custDTO.getAddress(), custDTO.getTel());
+            Customer save = customerRepository.save(customer);
+            return save != null;
         } else {
             return false;
         }

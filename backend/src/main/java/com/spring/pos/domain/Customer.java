@@ -2,6 +2,7 @@ package com.spring.pos.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +19,8 @@ public class Customer implements Serializable {
     private String address;
     @Column(name = "tel")
     private String tel;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Order> orderList;
 
     public Customer() {
     }
@@ -27,6 +30,21 @@ public class Customer implements Serializable {
         this.name = name;
         this.address = address;
         this.tel = tel;
+    }
+
+    public Customer(String name, String address, String tel, List<Order> orderList) {
+        this.name = name;
+        this.address = address;
+        this.tel = tel;
+        this.orderList = orderList;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 
     public int getId() {
@@ -69,12 +87,13 @@ public class Customer implements Serializable {
         return id == customer.id &&
                 Objects.equals(name, customer.name) &&
                 Objects.equals(address, customer.address) &&
-                Objects.equals(tel, customer.tel);
+                Objects.equals(tel, customer.tel) &&
+                Objects.equals(orderList, customer.orderList);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, address, tel);
+        return Objects.hash(id, name, address, tel, orderList);
     }
 }

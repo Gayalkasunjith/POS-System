@@ -74,7 +74,6 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
-
     @Override
     public boolean update(ItemDTO itemDTO) {
         Item item = new Item(itemDTO.getDescription(), itemDTO.getPrice(), itemDTO.getQty());
