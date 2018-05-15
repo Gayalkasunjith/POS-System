@@ -1,39 +1,40 @@
 package com.spring.pos.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "order_details")
+@AssociationOverrides({@AssociationOverride(name = "oDI.item", joinColumns = @JoinColumn(name = "item_id"))
+        , @AssociationOverride(name = "oDI.order", joinColumns = @JoinColumn(name = "order_id"))})
 public class OrderDetail implements Serializable {
 
-    private Item item;
-    private Order order;
+    private OrderDetailId oDI = new OrderDetailId();
     private int soldQty;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(Item item, Order order, int soldQty) {
-        this.item = item;
-        this.order = order;
+    public OrderDetail(OrderDetailId oDI) {
+        this.oDI = oDI;
+    }
+
+    public OrderDetail(OrderDetailId oDI, int soldQty) {
+        this.oDI = oDI;
         this.soldQty = soldQty;
     }
 
-    public Item getItem() {
-        return item;
+    @Transient
+    public OrderDetailId getoDI() {
+        return oDI;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setoDI(OrderDetailId oDI) {
+        this.oDI = oDI;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
+    @Transient
     public int getSoldQty() {
         return soldQty;
     }
@@ -48,13 +49,12 @@ public class OrderDetail implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         OrderDetail that = (OrderDetail) o;
         return soldQty == that.soldQty &&
-                Objects.equals(item, that.item) &&
-                Objects.equals(order, that.order);
+                Objects.equals(oDI, that.oDI);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(item, order, soldQty);
+        return Objects.hash(oDI, soldQty);
     }
 }

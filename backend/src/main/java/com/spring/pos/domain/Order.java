@@ -2,6 +2,7 @@ package com.spring.pos.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +18,11 @@ public class Order implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cust_id")
     private Customer customer;
+    /**
+     * for bidirectional mapping
+     */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "oDI.order", cascade = CascadeType.ALL)
+    private List<OrderDetail> orderDetails;
 
     public Order() {
     }
@@ -24,6 +30,12 @@ public class Order implements Serializable {
     public Order(String date, Customer customer) {
         this.date = date;
         this.customer = customer;
+    }
+
+    public Order(String date, Customer customer, List<OrderDetail> orderDetails) {
+        this.date = date;
+        this.customer = customer;
+        this.orderDetails = orderDetails;
     }
 
     public int getId() {
@@ -50,6 +62,14 @@ public class Order implements Serializable {
         this.customer = customer;
     }
 
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,12 +77,13 @@ public class Order implements Serializable {
         Order order = (Order) o;
         return id == order.id &&
                 Objects.equals(date, order.date) &&
-                Objects.equals(customer, order.customer);
+                Objects.equals(customer, order.customer) &&
+                Objects.equals(orderDetails, order.orderDetails);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, date, customer);
+        return Objects.hash(id, date, customer, orderDetails);
     }
 }
