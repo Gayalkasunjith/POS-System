@@ -13,4 +13,6 @@ public interface CustomerService {
     CustomerDTO findById(int id);
 
     boolean delete(int id);
+
+    boolean update(CustomerDTO customerDTO);
 }

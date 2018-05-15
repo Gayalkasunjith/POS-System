@@ -80,4 +80,15 @@ public class CustomerServiceImpl implements CustomerService {
             return false;
         }
     }
+
+    @Override
+    public boolean update(CustomerDTO customerDTO) {
+        Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress(), customerDTO.getTel());
+        Customer save = customerRepository.save(customer);
+        if (save != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

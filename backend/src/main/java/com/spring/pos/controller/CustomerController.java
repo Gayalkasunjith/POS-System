@@ -37,4 +37,10 @@ public class CustomerController {
         boolean delete = customerService.delete(id);
         return delete;
     }
+
+    @PutMapping(value = "update")
+    public boolean update(@RequestBody CustomerDTO customerDTO) {
+        boolean update = customerService.update(customerDTO);
+        return update;
+    }
 }
