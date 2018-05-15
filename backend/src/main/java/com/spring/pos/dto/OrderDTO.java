@@ -1,12 +1,14 @@
 package com.spring.pos.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class OrderDTO implements Serializable {
 
     private int id;
     private String date;
     private CustomerDTO customerDTO;
+    private List<OrderDetailDTO> orderDetailDTOList;
 
     public OrderDTO() {
     }
@@ -15,6 +17,13 @@ public class OrderDTO implements Serializable {
         this.id = id;
         this.date = date;
         this.customerDTO = customerDTO;
+    }
+
+    public OrderDTO(int id, String date, CustomerDTO customerDTO, List<OrderDetailDTO> orderDetailDTOList) {
+        this.id = id;
+        this.date = date;
+        this.customerDTO = customerDTO;
+        this.orderDetailDTOList = orderDetailDTOList;
     }
 
     public int getId() {
@@ -41,12 +50,21 @@ public class OrderDTO implements Serializable {
         this.customerDTO = customerDTO;
     }
 
+    public List<OrderDetailDTO> getOrderDetailDTOList() {
+        return orderDetailDTOList;
+    }
+
+    public void setOrderDetailDTOList(List<OrderDetailDTO> orderDetailDTOList) {
+        this.orderDetailDTOList = orderDetailDTOList;
+    }
+
     @Override
     public String toString() {
         return "OrderDTO{" +
                 "id=" + id +
                 ", date='" + date + '\'' +
                 ", customerDTO=" + customerDTO +
+                ", orderDetailDTOList=" + orderDetailDTOList +
                 '}';
     }
 }

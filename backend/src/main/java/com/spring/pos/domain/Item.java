@@ -28,6 +28,13 @@ public class Item implements Serializable {
         this.qty = qty;
     }
 
+    public Item(int id, String description, double price, int qty) {
+        this.id = id;
+        this.description = description;
+        this.price = price;
+        this.qty = qty;
+    }
+
     public int getId() {
         return id;
     }

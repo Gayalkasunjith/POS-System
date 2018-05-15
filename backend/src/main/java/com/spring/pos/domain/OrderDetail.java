@@ -16,16 +16,12 @@ public class OrderDetail implements Serializable {
     public OrderDetail() {
     }
 
-    public OrderDetail(OrderDetailId oDI) {
-        this.oDI = oDI;
-    }
-
     public OrderDetail(OrderDetailId oDI, int soldQty) {
         this.oDI = oDI;
         this.soldQty = soldQty;
     }
 
-    @Transient
+    @EmbeddedId
     public OrderDetailId getoDI() {
         return oDI;
     }
@@ -35,6 +31,23 @@ public class OrderDetail implements Serializable {
     }
 
     @Transient
+    public Order getOrder() {
+        return oDI.getOrder();
+    }
+
+    public void setOrder(Order order) {
+        getoDI().setOrder(order);
+    }
+
+    @Transient
+    public Item getItem() {
+        return oDI.getItem();
+    }
+
+    public void setItem(Item item) {
+        getoDI().setItem(item);
+    }
+
     public int getSoldQty() {
         return soldQty;
     }
