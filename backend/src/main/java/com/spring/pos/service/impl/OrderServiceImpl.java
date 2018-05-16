@@ -9,9 +9,7 @@ import com.spring.pos.dto.ItemDTO;
 import com.spring.pos.dto.OrderDTO;
 import com.spring.pos.dto.OrderDetailDTO;
 import com.spring.pos.repository.CustomerRepository;
-import com.spring.pos.repository.ItemRepository;
 import com.spring.pos.repository.OrderReporsitory;
-import com.spring.pos.service.CustomerService;
 import com.spring.pos.service.ItemService;
 import com.spring.pos.service.OrderDetailService;
 import com.spring.pos.service.OrderService;
@@ -49,7 +47,9 @@ public class OrderServiceImpl implements OrderService {
         order.setDate(orderDTO.getDate());
         order.setId(orderDTO.getId());
 
-        Customer customer = new Customer(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress(), customerDTO.getTel());
+        Customer customer = null;
+        customer = customerRepository.findOne(customerDTO.getId());
+        order.setCustomer(customer);
         List<OrderDetailDTO> orderDetailDTOList = orderDTO.getOrderDetailDTOList();
 
         for (OrderDetailDTO orderDetailDTO : orderDetailDTOList) {
@@ -61,7 +61,6 @@ public class OrderServiceImpl implements OrderService {
             orderDetails.add(orderDetail);
         }
 
-        customer = customerRepository.save(customer);
         order.setCustomer(customer);
 
         flag = placeOrder(order);
